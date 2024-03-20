@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace DailyCodingTest
 {
@@ -17,11 +19,9 @@ namespace DailyCodingTest
             List<string> strList = new List<string>();
 
             for (int i = 0; i < input; ++i)
-            {
-                string word = Console.ReadLine();
-                if (!strList.Contains(word))
-                    strList.Add(word);
-            }
+                strList.Add(Console.ReadLine());
+
+            strList = strList.Distinct().ToList();
 
             strList.Sort((string x, string y) =>
             {
@@ -40,10 +40,9 @@ namespace DailyCodingTest
                 return ret;
             });
 
-            foreach (var item in strList)
-            {
-                Console.WriteLine(item);
-            }
+            StringBuilder sb = new StringBuilder(string.Join("\n", strList));
+
+            Console.WriteLine(sb);
         }
     }
 }
