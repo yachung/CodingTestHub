@@ -14,25 +14,20 @@ namespace DailyCodingTest
 
         public static void Solution(int input)
         {
-            LinkedList<int> cardList = new LinkedList<int>();
+            Queue<int> queue = new Queue<int>();
 
             for (int i = 0; i < input; ++i)
             {
-                cardList.AddLast(i + 1);
+                queue.Enqueue(i + 1);
             }
 
-            while (cardList.Count > 1)
+            while (queue.Count > 1)
             {
-                cardList.RemoveFirst();
-
-                int tmp = cardList.First.Value;
-
-                cardList.RemoveFirst();
-
-                cardList.AddLast(tmp);
+                queue.Dequeue();
+                queue.Enqueue(queue.Dequeue());
             }
 
-            Console.WriteLine(cardList.First.Value);
+            Console.WriteLine(queue.Dequeue());
         }
     }
 }
