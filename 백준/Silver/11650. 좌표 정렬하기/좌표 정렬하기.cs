@@ -8,31 +8,24 @@ class Program
         StringBuilder sb = new StringBuilder();
         int input = int.Parse(Console.ReadLine());
 
-        string[] coordArr = new string[input];
+        int[][] coordArr = new int[input][];
         for (int i = 0; i < input; ++i)
-            coordArr[i] = Console.ReadLine();
+        {
+            int[] tmp = Array.ConvertAll(Console.ReadLine().Split(), int.Parse);
+            coordArr[i] = tmp;
+        }
 
         Array.Sort(coordArr, (a, b) =>
         {
-            int[] x = Array.ConvertAll(a.Split(), int.Parse);
-            int[] y = Array.ConvertAll(b.Split(), int.Parse);
-
-            int ret = 0;
-
-            if (ret == 0)
-                ret = x[0].CompareTo(y[0]);
-
-            if (ret == 0)
-                ret = x[1].CompareTo(y[1]);
-
-
-            return ret;
+            if (a[0] == b[0])
+                return a[1].CompareTo(b[1]);
+            else
+                return a[0].CompareTo(b[0]);
         });
 
         foreach (var item in coordArr)
-            sb.AppendLine(item);
+            sb.AppendLine($"{item[0]} {item[1]}");
 
         Console.WriteLine(sb);
     }
-
 }
