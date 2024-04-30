@@ -1,8 +1,9 @@
 class Heap
 {
-    private int[] heapArr;
-    private int capacity;
-    private int size;
+    protected int[] heapArr;
+    protected int capacity;
+    protected int size;
+    public int Size { get { return size; } }
 
     public Heap(int capacity)
     {
@@ -11,17 +12,17 @@ class Heap
         size = 0;
     }
 
-    private int ParentIndex(int idx)
+    protected int ParentIndex(int idx)
     {
         return (idx - 1) / 2;
     }
 
-    private int LeftChildIndex(int idx)
+    protected int LeftChildIndex(int idx)
     {
         return 2 * idx + 1;
     }
 
-    private int RightChildIndex(int idx)
+    protected int RightChildIndex(int idx)
     {
         return 2 * idx + 2;
     }
@@ -32,7 +33,7 @@ class Heap
             Console.WriteLine(heapArr[i]);
     }
 
-    public void insert(int item)
+    public virtual void Insert(int item)
     {
         heapArr[size++] = item;
 
@@ -48,10 +49,9 @@ class Heap
             // C# 7.0 이상에서 지원하는 Tuple 활용한 swap
             (heapArr[parent], heapArr[idx]) = (heapArr[idx], heapArr[parent]);
         }
-
     }
 
-    public int remove() 
+    public virtual int Remove() 
     {
         if (EmptyHeap())
             return -1;
@@ -92,7 +92,7 @@ class Heap
         return root;
     }
 
-    private bool EmptyHeap()
+    public bool EmptyHeap()
     {
         if (size == 0)
             throw new Exception("heap is Empty !!!");
@@ -108,3 +108,73 @@ class Heap
             return -1;
     }
 }
+
+class Max_Heap : Heap
+{
+    public Max_Heap(int capacity) : base(capacity) { }
+
+    public override void Insert(int item)
+    {
+        heapArr[size++] = item;
+
+        int idx = size - 1;
+
+        while (idx > 0)
+        {
+            int parent = ParentIndex(idx);
+            if (heapArr[parent].CompareTo(heapArr[idx]) >= 0)
+                break;
+
+            // C# 7.0 이상에서 지원하는 Tuple 활용한 swap
+            (heapArr[parent], heapArr[idx]) = (heapArr[idx], heapArr[parent]);
+        }
+    }
+
+    public override int Remove()
+    {
+        if (EmptyHeap())
+            return -1;
+
+        int root = heapArr[0];
+        int idx = 0;
+        int leftIdx, rightIdx, minIdx;
+
+        heapArr[idx] = heapArr[size - 1];
+        heapArr[size - 1] = 0;
+        size--;
+
+        while (true)
+        {
+            minIdx = idx;
+            leftIdx = LeftChildIndex(idx);
+            rightIdx = RightChildIndex(idx);
+
+            if (leftIdx < size && heapArr[leftIdx] > heapArr[minIdx])
+            {
+                minIdx = leftIdx;
+            }
+
+            if (rightIdx < size && heapArr[rightIdx] > heapArr[minIdx])
+            {
+                minIdx = rightIdx;
+            }
+
+            if (minIdx != idx)
+            {
+                (heapArr[idx], heapArr[minIdx]) = (heapArr[minIdx], heapArr[idx]);
+                idx = minIdx;
+            }
+            else
+                break;
+        }
+
+        return root;
+    }
+}
+
+/*
+ * 힙의 구현
+ * 부모 노드의 인덱스 = (자식 노드의 인덱스 - 1) / 2
+ * 왼쪽 자식노드의 인덱스 = (부모 노드의 인덱스 * 2)
+ * 오른쪽 자식노드의 인덱스 = (부모 노드의 인덱스 * 2) + 1
+ */
