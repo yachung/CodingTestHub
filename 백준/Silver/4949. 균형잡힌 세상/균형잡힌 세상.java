@@ -22,16 +22,16 @@ public class Main {
     }
 
     public static String isBalance(String input) {
-        Stack<String> stack = new Stack<String>();
+        Stack<Character> stack = new Stack<Character>();
 
-        for (String item : input.split("")) {
-            if (item.equals("(") || item.equals("[")) {
+        for (var item : input.toCharArray()) {
+            if (item == ('(') || item == ('[')) {
                 stack.push(item);
-            } else if (item.equals(")")) {
-                if (stack.isEmpty() || !stack.pop().equals("("))
+            } else if (item == (')')) {
+                if (stack.isEmpty() || !stack.pop().equals('('))
                     return "no";
-            } else if (item.equals("]")) {
-                if (stack.isEmpty() || !stack.pop().equals("["))
+            } else if (item == (']')) {
+                if (stack.isEmpty() || !stack.pop().equals('['))
                     return "no";
             }
         }
