@@ -1,3 +1,6 @@
+using System.Text;
+
+StringBuilder sb = new StringBuilder();
 int N = int.Parse(Console.ReadLine());
 
 List<int> mines = new List<int>();
@@ -11,5 +14,7 @@ for (int i = 0; i < N; i++)
     bool isRightPeak = (i == N - 1) || mines[i] >= mines[i + 1];
 
     if (isLeftPeak && isRightPeak)
-        Console.WriteLine(i + 1);
+        sb.AppendLine((i + 1).ToString());
 }
+
+Console.WriteLine(sb.ToString());
